@@ -19,18 +19,10 @@ app.get('/api/listings/:id/photos', (req, res) => {
 
 app.get('/api/listings/:id/bookings', (req, res) => {
   const { id } = req.params;
-  console.log('serving get request for bookings');
-  console.log(id);
-  axios.get(`${bookings_url}/${id}/bookings`)
-    .then(data => {
-      console.log(data);
-      res.status(200).send(data);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(404).send(err);
-    });
-  ;
+  const url = `http://ec2-34-203-218-92.compute-1.amazonaws.com/api/listings/${id}/bookings`;
+  axios.get(url)
+    .then(({ data }) => res.status(200).send(data))
+    .catch(err => res.status(404).send(err));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
