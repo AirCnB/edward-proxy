@@ -5,7 +5,6 @@ const app = express();
 const port = 3000;
 
 const description_url = 'http://ec2-18-222-220-204.us-east-2.compute.amazonaws.com/api/house/listings/80/';
-const bookings_url = 'http://ec2-34-203-218-92.compute-1.amazonaws.com/api/listings';
 
 app.use('/listings/:id', express.static('public'));
 
@@ -23,6 +22,14 @@ app.get('/api/listings/:id/bookings', (req, res) => {
   axios.get(url)
     .then(({ data }) => res.status(200).send(data))
     .catch(err => res.status(404).send(err));
+});
+
+app.get('/api/house/:id', (req, res) => {
+  const { id } = req.params;
+  const url = `http://ec2-18-222-220-204.us-east-2.compute.amazonaws.com/api/house/${id}`;
+  axios.get(url)
+    .then((data) => res.status(200).send(data.data))
+    .catch(err => res.status(404).send('err'));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
