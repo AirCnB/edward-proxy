@@ -1,0 +1,22 @@
+#banner {
+
+}
+
+#main {
+  width: 1000px;
+  margin: 70px auto;
+}
+
+#listing-description {
+  display: block;
+}
+
+#bookings {
+  position: sticky;
+  top: 50px;
+  float: right;
+}
+
+#reviews {
+  margin: 70px auto;
+}
