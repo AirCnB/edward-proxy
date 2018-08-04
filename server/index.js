@@ -43,9 +43,15 @@ app.get('/:id/reviews', (req, res) => {
 app.post('/api/listings/:id/saved', (req, res) => {
   const request = Object.keys(req.body)[0];
   axios.post(`http://ec2-13-59-102-97.us-east-2.compute.amazonaws.com/saved`, request)
-    .then(response => {res.status(200).send()})
-    .catch(err => {res.status(404).send()})
+    .then(() => res.status(200).send())
+    .catch(err => res.status(404).send('err'));
 });
 
+app.post('/:id/reviews/query=:searchTerm', (req, res) => {
+  const { id, searchTerm } = req.params;
+  axios.post(`http://ec2-52-87-204-118.compute-1.amazonaws.com/${id}/reviews/query=${searchTerm}`)
+    .then(({ data }) => res.status(200).send(data))
+    .catch(err => res.status(404).send('error'));
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
