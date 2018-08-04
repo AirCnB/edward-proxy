@@ -1,10 +1,12 @@
 const express = require('express');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
 
 app.use('/listings/:id', express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/api/listings/:id/photos', (req, res) => {
   const { id } = req.params;
@@ -37,5 +39,13 @@ app.get('/:id/reviews', (req, res) => {
     .then(({ data }) => res.status(200).send(data))
     .catch(err => res.status(404).send('err'));
 });
+
+app.post('/api/listings/:id/saved', (req, res) => {
+  const request = Object.keys(req.body)[0];
+  axios.post(`http://ec2-13-59-102-97.us-east-2.compute.amazonaws.com/saved`, request)
+    .then(response => {res.status(200).send()})
+    .catch(err => {res.status(404).send()})
+});
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
